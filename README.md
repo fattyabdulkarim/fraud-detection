@@ -1,7 +1,6 @@
 # Fraud Detection Project
 
 ## Project Overview
-
 This project is about analysing transaction data to understand the data and identify information that could be useful for fraud detection.
 
 I used Python and Jupyter Notebook to work with the dataset and carry out my checks.
@@ -75,6 +74,11 @@ The purpose of this check was to identify values that were unusually high or low
 
 I did not automatically remove any outliers because an unusual value does not necessarily mean that the value is incorrect.
 
+### 8i Outliers in Amount_usd 
+II used the IQR method to check for outliers. After doing the calculation, my upper bound was $600.08, so any amount_usd 
+
+value above $600.08 is considered a statistical outlier.
+
 ### 9. Git and GitHub
 
 I used Git to keep track of my project and GitHub to store my work.
@@ -107,3 +111,4 @@ This means the `.env` file remains available locally but is no longer included i
 - Git
 - GitHub
 - SpellChecker
+
