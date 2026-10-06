@@ -112,3 +112,34 @@ This means the `.env` file remains available locally but is no longer included i
 - GitHub
 - SpellChecker
 
+## 9. Handling missing amount_usd
+There were missing values in the amount_usd column. Instead of replacing them with the mean or median, I calculated the value using the available amount_src and the relevant currency conversion rate.
+First, I checked the different source currencies and the available exchange rates. The source currencies were USD, CAD and GBP, with the following conversion rates to USD:
+- USD → USD = 1.00
+- CAD → USD = 0.74
+- GBP → USD = 1.25
+I then multiplied amount_src by the appropriate conversion rate based on the source_currency. This allowed me to derive the missing amount_usd values rather than estimating them.
+After filling the missing values, I checked the column again to make sure there were no remaining null values.
+
+## 10. Handling missing kyc_tier
+For kyc_tier, I decided to use a group-based approach rather than simply filling all missing values with the overall most common KYC tier.
+Before doing this, I noticed that some KYC values had inconsistent formatting, such as standard, STANDARD, standrd and values with extra spaces. I cleaned these values by removing unnecessary spaces, converting them to lowercase and correcting obvious spelling variations.
+I then grouped the data by home_country and calculated the mode of kyc_tier within each group. The mode represents the KYC tier that occurred most frequently within each country.
+I used these group-specific modes to fill any missing KYC values. I also used "Unknown" as a fallback where a suitable group value was not available.
+Finally, I checked the column again and confirmed that there were no remaining missing values.
+
+## 11. Handling missing fee
+For the fee column, I used the channel column because the fee can vary depending on the transaction channel.
+I grouped the data by channel and calculated the median fee for each channel. I chose the median because it is less affected by unusually high or low fee values than the mean.
+The median for each channel was then used to fill any missing fee values within that channel.
+I checked the column afterwards to confirm that there were no remaining missing values.
+
+## Outlier Detection for fee
+I also checked the fee column for potential outliers using the IQR (Interquartile Range) method.
+I calculated:
+- Q1 — the 25th percentile
+- Q3 — the 75th percentile
+- IQR — Q3 minus Q1
+I initially used the standard constant of 1.5 to calculate the lower and upper bounds:
+However, this identified a large number of values as potential outliers, even though many of the values were relatively close together. Based on the instruction to increase the constant, I tested a much larger constant of 100 to make the boundaries wider and reduce the number of values being classified as outliers.
+I also visualised the fee distribution using a boxplot to better understand the potential outliers and the effect of the IQR boundaries. but the result loo the same.
