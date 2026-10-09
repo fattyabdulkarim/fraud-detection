@@ -143,3 +143,10 @@ I calculated:
 I initially used the standard constant of 1.5 to calculate the lower and upper bounds:
 However, this identified a large number of values as potential outliers, even though many of the values were relatively close together. Based on the instruction to increase the constant, I tested a much larger constant of 100 to make the boundaries wider and reduce the number of values being classified as outliers.
 I also visualised the fee distribution using a boxplot to better understand the potential outliers and the effect of the IQR boundaries. but the result loo the same.
+
+## Hyperparameter Tuning Findings
+I used `RandomizedSearchCV` to tune the Random Forest model by testing 10 combinations of hyperparameters with 3-fold cross-validation. The best configuration used 300 trees, a maximum depth of 10, a minimum of 4 samples per leaf, and `balanced_subsample` class weighting.
+
+The baseline model achieved a test Average Precision of 0.8717, while the tuned model achieved 0.8766. This represents a small improvement in Average Precision. However, fraud recall remained at 0.82, and the fraud F1-score decreased slightly from 0.89 to 0.88.
+
+Overall, hyperparameter tuning slightly improved the model's ranking performance, but further work is needed to improve the detection of fraudulent transactions.
